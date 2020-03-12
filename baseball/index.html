@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baseball</title>
+</head>
+
+<body>
+    <h1>결과 : </h1>
+    <form>
+        <input type="number" maxlength="4" onkeypress="return lengthCheck(this)" />
+        <button>입력</button>
+    </form>
+    <script type="module" src="./js/index.js"></script>
+    <script>
+        function lengthCheck(obj) {
+            if (obj.value.length >= obj.maxLength) {
+                return false;
+            }
+        }
+    </script>
+</body>
+
+</html>
