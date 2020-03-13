@@ -1,7 +1,10 @@
-function test() {
-  console.log("test");
+function outer() {
+  console.log("외부", name);
+  function inner() {
+    console.log("내부", name);
+  }
+  inner();
 }
 
-setTimeout(() => {
-  test();
-}, 3000);
+var name = "zero";
+outer();
