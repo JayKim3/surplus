@@ -1,7 +1,7 @@
 // 지뢰 랜덤 생성 후 지뢰 심는 로직 구성 - OK
 // 가로 , 세로, 지뢰 수 입력 -> 2차원 배열 동적 생성 후 화면에 출력 - OK
 // 마우스 왼쪽 버튼 클릭 시 해당 칸의 데이터가 지뢰 또는 0이 아닐시에는 주변 지뢰 개수 보여주기 -> OK
-// 마우스 왼쪽 버튼으로 칸을 클릭할때 해당 칸의 데이터가 0(주변에 지뢰가 없다는걸 의미) 이면 주변 데이터 검사 후 지뢰 찾기 게임 처럼 펼치기
+// 마우스 왼쪽 버튼으로 칸을 클릭할때 해당 칸의 데이터가 0(주변에 지뢰가 없다는걸 의미) 이면 주변 데이터 검사 후 지뢰 찾기 게임 처럼 펼치기 -> OK
 // 마우스 오른쪽 버튼으로 칸을 클릭할때 깃발 -> 물음표 -> X or 빈 값으로 변경
 import Table from "./Table.js";
 import Mine from "./Mine.js";
@@ -47,10 +47,12 @@ export default function App() {
     const Line = Array.prototype.indexOf.call(parentTbody.children, parentTr);
 
     clickedTd.classList.add("opened");
+
     if (this.data[Line][Canne] === codeTable.mine) {
       this.$tbody.children[Line].children[Canne].textContent = "펑";
     } else {
       //해당 칸 데이터가 0또는 지뢰가 아닐시
+      this.data[Line][Canne] = codeTable.open;
       let surround = [this.data[Line][Canne - 1], this.data[Line][Canne + 1]];
       if (this.data[Line - 1]) {
         surround = surround.concat([
@@ -71,7 +73,7 @@ export default function App() {
         return v === codeTable.mine;
       }).length;
 
-      clickedTd.textContent = surroundMine;
+      clickedTd.textContent = surroundMine || "";
       // 해당 칸 데이터가 0 일시
       if (surroundMine === codeTable.normal) {
         let surroundCanne = [];
@@ -95,15 +97,24 @@ export default function App() {
             this.$tbody.children[Line + 1].children[Canne + 1]
           );
         }
-        console.log(surroundCanne);
 
         surroundCanne
           .filter(v => {
             return !!v;
           })
           .forEach(nextCanne => {
-            console.log(nextCanne);
-            nextCanne.click();
+            const parentTr = nextCanne.parentNode;
+            const parentTbody = nextCanne.parentNode.parentNode;
+            const nextCanneCanne = Array.prototype.indexOf.call(
+              parentTr.children,
+              nextCanne
+            );
+            const nextCanneLine = Array.prototype.indexOf.call(
+              parentTbody.children,
+              parentTr
+            );
+            if (this.data[nextCanneLine][nextCanneCanne] !== codeTable.open)
+              nextCanne.click();
           });
       }
     }

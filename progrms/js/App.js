@@ -4,6 +4,7 @@ class App {
   $target = null;
   data = [];
   isLoading = false;
+  history = new Set([]);
 
   constructor($target) {
     this.$target = $target;
@@ -11,7 +12,34 @@ class App {
     this.searchInput = new SearchInput({
       $target,
       onSearch: keyword => {
-        api.fetchCats(keyword).then(({ data }) => this.setState(data));
+        this.loading.setState(true);
+        console.log(validation);
+        api.fetchCats(keyword).then(({ data }) => {
+          // validation.isInvalidData(data);
+          this.setState(data);
+          this.searchHistory.setState(keyword);
+          this.loading.setState(false);
+        });
+      },
+      onClick: () => {
+        this.loading.setState(true);
+        api.fetchRandomCats().then(({ data }) => {
+          this.setState(data);
+          this.loading.setState(false);
+        });
+      }
+    });
+
+    this.searchHistory = new SearchHistory({
+      $target,
+      initialHistory: this.history,
+      onClickHistory: keyword => {
+        console.log(keyword);
+        this.loading.setState(true);
+        api.fetchCats(keyword).then(({ data }) => {
+          this.setState(data);
+          this.loading.setState(false);
+        });
       }
     });
 
@@ -33,19 +61,17 @@ class App {
         image: null
       }
     });
+
+    this.loading = new Loading({
+      $target,
+      isLoading: false
+    });
   }
 
   setState(nextData) {
     console.log(this);
-    console.log(this.data.length);
-    this.$Loading = document.createElement("div");
-    if (this.data.length === 0) {
-      console.log(this.data.length, this.$target);
-      this.$target.appendChild(this.$Loading);
-      this.$Loading.classList.add("Loading");
-    } else {
-      this.$Loading.classList.remove("Loading");
-    }
+    // validation.isInvalidData(nextData);
+
     this.data = nextData;
     this.searchResult.setState(nextData);
   }

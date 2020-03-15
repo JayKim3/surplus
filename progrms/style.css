@@ -46,9 +46,37 @@ body * {
 }
 
 .SearchInput {
-    width: 100%;
+    width: 80%;
     font-size: 40px;
     padding: 10px 15px;
+}
+
+.RandomButton {
+    width: 20%;
+    margin: 20px;
+    border-radius: 4px;
+    width: 150px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.RandomButton:hover {
+    color: skyblue;
+}
+
+.SearchHistory {
+    display: none;
+    border: 1px solid black;
+    padding: 10px;
+    margin-top: 1rem;
+}
+
+.SearchHistory span {
+    padding: 5px;
+    margin: 10px;
+    cursor: pointer;
+    color: skyblue;
 }
 
 .ImageInfo {
@@ -84,6 +112,19 @@ body * {
     width: 100%;
 }
 
+.ImageInfo .content-wrapper button {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-right: 20px;
+}
+
+.ImageInfo .content-wrapper button:hover {
+    color: skyblue;
+}
+
 .Loading {
     position: fixed;
     top: 0;
@@ -95,7 +136,7 @@ body * {
     color: #f1f3f5;
 }
 
-.Looading span {
+.Loading span {
     display: block;
     position: absolute;
     top: 50%;

@@ -35,7 +35,7 @@ class ImageInfo {
           <div class="content-wrapper">
             <h1 class="title">
               <span>${name}</span>
-              <button class="close">x</button>
+              <button>x</button>
             </h1>
             <img src="${url}" alt="${name}"/>        
             <div class="description">
@@ -46,8 +46,8 @@ class ImageInfo {
       this.$imageInfo.style.display = "block";
       // event delegation
       this.$imageInfo.addEventListener("click", this.onCloseClick);
-      this.$imageInfo.addEventListener("keypress", e => {
-        console.log(e.keyCode);
+      window.addEventListener("keyup", e => {
+        console.log(e);
       });
     } else {
       this.$imageInfo.style.display = "none";
