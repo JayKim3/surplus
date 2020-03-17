@@ -1,27 +1,55 @@
 const TEMPLATE = '<input type="text">';
 
-class SearchInput {
+export default class SearchInput {
   constructor({ $target, onSearch, onClick }) {
     const $searchInput = document.createElement("input");
     const $randomButton = document.createElement("button");
+    const $toggleCheckBox = document.createElement("input");
+    const $toggleLabel = document.createElement("label");
+    let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
     this.$searchInput = $searchInput;
     this.$randomButton = $randomButton;
+    this.$toggleCheckBox = $toggleCheckBox;
+    this.$toggleLabel = $toggleLabel;
+
     this.$searchInput.placeholder = "고양이를 검색해보세요.|";
     this.$searchInput.className = "SearchInput";
-    $randomButton.className = "RandomButton";
-    $randomButton.textContent = "랜덤버튼";
     this.$searchInput.autofocus = "true";
-    $target.appendChild($searchInput);
-    $target.appendChild($randomButton);
 
-    $searchInput.addEventListener("keyup", e => {
+    this.$randomButton.className = "RandomButton";
+    this.$randomButton.textContent = "랜덤버튼";
+
+    this.$toggleLabel.innerHTML = "Toggle";
+
+    this.$toggleCheckBox.type = "checkbox";
+    this.$toggleCheckBox.className = "ToggleCheckBox";
+
+    $target.appendChild(this.$toggleLabel);
+    this.$toggleLabel.appendChild(this.$toggleCheckBox);
+    $target.appendChild(this.$searchInput);
+    $target.appendChild(this.$randomButton);
+
+    this.$searchInput.addEventListener("keyup", e => {
       if (e.keyCode === 13) {
         onSearch(e.target.value);
         $searchInput.value = "";
       }
     });
 
-    $randomButton.addEventListener("click", onClick);
+    this.$randomButton.addEventListener("click", onClick);
+
+    this.$toggleCheckBox.addEventListener("click", e => {
+      if (e.target.checked && !isDarkMode) {
+        document.body.style.backgroundColor = "#000";
+        document.body.style.color = "#fff";
+        isDarkMode = true;
+      } else if (!e.target.checked && isDarkMode) {
+        document.body.style.backgroundColor = "#fff";
+        document.body.style.color = "#000";
+        isDarkMode = false;
+      }
+    });
 
     console.log("SearchInput created.", this);
   }

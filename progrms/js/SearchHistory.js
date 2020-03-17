@@ -1,4 +1,4 @@
-class SearchHistory {
+export default class SearchHistory {
   constructor({ $target, initialHistory, onClickHistory }) {
     const $searchHistory = document.createElement("div");
     this.$searchHistory = $searchHistory;

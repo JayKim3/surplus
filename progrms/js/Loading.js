@@ -1,4 +1,4 @@
-class Loading {
+export default class Loading {
   constructor({ $target, isLoading }) {
     const $Loading = document.createElement("div");
     this.$Loading = $Loading;

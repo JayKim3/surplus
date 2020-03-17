@@ -1,4 +1,4 @@
-class ImageInfo {
+export default class ImageInfo {
   $imageInfo = null;
   data = null;
 
@@ -10,15 +10,34 @@ class ImageInfo {
 
     this.data = data;
 
+    window.addEventListener("keyup", e => {
+      this.onCloseClick(e);
+    });
+
+    this.$imageInfo.addEventListener("click", e => {
+      this.onCloseClick(e);
+    });
+
     this.onCloseClick = e => {
-      const clickedNode = e.target.nodeName;
-      if (clickedNode === "BUTTON") {
+      if (
+        e.target.nodeName === "BUTTON" ||
+        e.keyCode === 27 ||
+        e.target.className === "ImageInfo"
+      ) {
         {
           $imageInfo.style.display = "none";
           $imageInfo.style.backgroundColor = "#fff";
         }
       }
     };
+
+    this.onCheckWidth = () => {
+      console.log("onCheckWidth");
+      if (window.innerWidth <= 768) {
+        console.log("small");
+      }
+    };
+
     this.render();
   }
 
@@ -38,17 +57,15 @@ class ImageInfo {
               <button>x</button>
             </h1>
             <img src="${url}" alt="${name}"/>        
-            <div class="description">
-              <div>성격: ${temperament}</div>
-              <div>태생: ${origin}</div>
-            </div>
+            <section class="description">
+              <span>성격: ${temperament}</span>
+              <br />
+              <span>태생: ${origin}</span>
+            </section>  
           </div>`;
       this.$imageInfo.style.display = "block";
       // event delegation
       this.$imageInfo.addEventListener("click", this.onCloseClick);
-      window.addEventListener("keyup", e => {
-        console.log(e);
-      });
     } else {
       this.$imageInfo.style.display = "none";
     }

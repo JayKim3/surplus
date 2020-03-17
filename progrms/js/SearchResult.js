@@ -1,21 +1,25 @@
-class SearchResult {
+export default class SearchResult {
   $searchResult = null;
   data = null;
   onClick = null;
+  previousOnload = null;
 
-  constructor({ $target, initialData, onClick }) {
+  constructor({ $target, initialData, onClick, onScrollEvent, onLoad }) {
     this.$searchResult = document.createElement("div");
     this.$searchResult.className = "SearchResult";
     $target.appendChild(this.$searchResult);
 
     this.data = initialData;
     this.onClick = onClick;
+    this.onScrollEvent = onScrollEvent;
+    this.onLoad = onLoad;
 
     this.render();
   }
 
   setState(nextData) {
-    this.data = nextData;
+    this.data = this.data.concat(...this.data, nextData);
+    console.log(this.data);
     this.render();
   }
 
@@ -24,7 +28,7 @@ class SearchResult {
       .map(
         cat => `
             <div class="item">
-              <img src=${cat.url} alt=${cat.name} />
+              <img class="lazyload" data-src=${cat.url} alt=${cat.name} />
             </div>
           `
       )
@@ -35,5 +39,7 @@ class SearchResult {
         this.onClick(this.data[index]);
       });
     });
+    this.onScrollEvent();
+    this.onLoad();
   }
 }

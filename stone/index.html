@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stone</title>
+</head>
+<style>
+    body {
+        text-align: center;
+    }
+
+    #my,
+    #rival {
+        display: inline-block;
+        margin-right: 50px;
+    }
+
+    #my-deck,
+    #rival-deck {
+        display: inline-block;
+        vertical-align: top;
+        width: 300px;
+        background-color: silver;
+
+    }
+
+    #rival-deck,
+    #rival-hero,
+    #rival-cards,
+    #my-cards,
+    #my-deck,
+    #my-hero {
+        text-align: center;
+    }
+
+    #rival-cards,
+    #my-cards {
+        height: 150px;
+    }
+
+    .card {
+        width: 50px;
+        height: 75px;
+        display: inline-block;
+        position: relative;
+        border: 1px solid black;
+        margin-bottom: 15px;
+        background-color: white;
+    }
+
+    .card-name {
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .card-att,
+    .card-hp,
+    .card-cost {
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 15px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        display: inline-block;
+        position: absolute;
+        bottom: 0;
+        border: 1px solid black;
+    }
+
+    .card-cost {
+        bottom: auto;
+        top: 0;
+        right: 0;
+        color: white;
+        background-color: blue;
+    }
+
+    .card-att {
+        left: 0;
+        background-color: yellow;
+    }
+
+    .card-hp {
+        right: 0;
+        color: white;
+        background-color: red;
+    }
+
+    .card-hidden {
+        display: none;
+    }
+
+    .card-selected {
+        border: 2px solid red;
+    }
+
+    .card-turnover {
+        background: gray;
+    }
+
+    #turn-btn {
+        float: right;
+        position: relative;
+        top: -23px;
+        font-size: 15px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #turn-btn:hover {
+        color: skyblue;
+    }
+
+    .turn {
+        border: 1px solid black;
+    }
+</style>
+
+<body>
+    <div id="rival">
+        <div>코스트 : <span id="rival-cost">10</span>/<span>10</span></div>
+        <div id="rival-hero"></div>
+        <div id="rival-cards"></div>
+    </div>
+    <div id="rival-deck"></div>
+
+    <hr />
+    <button id="turn-btn">턴넘기기</button>
+
+    <div id="my" class="turn">
+        <div id="my-cards"></div>
+        <div id="my-hero"></div>
+        <div>코스트 : <span id="my-cost">10</span>/<span>10</span></div>
+    </div>
+    <div id="my-deck"></div>
+
+    <div class="card-hidden">
+        <div class="card">
+            <div class="card-cost"></div>
+            <div class="card-att"></div>
+            <div class="card-hp"></div>
+        </div>
+    </div>
+    <script src="js/index.js"></script>
+    <div>Description</div>
+</body>
+
+</html>
