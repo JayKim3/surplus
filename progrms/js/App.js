@@ -19,48 +19,49 @@ class App {
 
     this.searchInput = new SearchInput({
       $target,
-      onSearch: keyword => {
+      onSearch: async keyword => {
         this.loading.setState(true);
-        api.fetchCats(keyword).then(({ data }) => {
-          if (!data.length) {
-            this.none.setState(data);
-            this.searchResult.setState(data);
-            this.loading.setState(false);
-            return;
-          }
-          this.keyword = keyword;
-          this.setState(data);
-          this.searchHistory.setState(keyword);
+        const { data } = await api.fetchCats(keyword);
+        if (!data.length) {
+          this.none.setState(data);
+          this.searchResult.setState(data);
           this.loading.setState(false);
-        });
+          return;
+        }
+        this.keyword = keyword;
+        this.setState(data);
+        this.searchHistory.setState(keyword);
+        this.loading.setState(false);
       },
-      onClick: () => {
+      onClick: async () => {
         this.loading.setState(true);
-        api.fetchRandomCats().then(({ data }) => {
-          this.setState(data);
-          this.loading.setState(false);
-        });
+        const { data } = api.fetchRandomCats();
+        this.setState(data);
+        this.loading.setState(false);
       }
     });
 
     this.searchHistory = new SearchHistory({
       $target,
       initialHistory: this.history,
-      onClickHistory: keyword => {
+      onClickHistory: async keyword => {
         this.loading.setState(true);
-        api.fetchCats(keyword).then(({ data }) => {
-          this.setState(data);
-          this.loading.setState(false);
-        });
+        const { data } = await api.fetchCats(keyword);
+        this.setState(data);
+        this.loading.setState(false);
       }
     });
 
     this.searchResult = new SearchResult({
       $target,
       initialData: this.data,
-      onClick: image => {
+      onClick: async e => {
         this.loading.setState(true);
-        api.fetchCatInfo(image.id).then(({ data }) => {
+        const nodeName = e.target.nodeName;
+        const image = this.data[e.target.id];
+
+        if (nodeName === "IMG") {
+          const { data } = await api.fetchCatInfo(image.id);
           const temperament = data.temperament;
           const origin = data.origin;
           image.temperament = temperament;
@@ -70,9 +71,9 @@ class App {
             image
           });
           this.loading.setState(false);
-        });
+        }
       },
-      onScrollEvent: () => {
+      onScrollEvent: async () => {
         window.addEventListener(
           "scroll",
           this.debounce(() => {
@@ -81,12 +82,11 @@ class App {
               document.scrollingElement.scrollHeight - window.scrollY ===
               window.innerHeight
             ) {
-              this.loading.setState(true);
-              api.fetchCats(this.keyword).then(({ data }) => {
-                this.searchResult.setState(data);
-                this.loading.setState(false);
-              });
               console.log("끝부분");
+              this.loading.setState(true);
+              const { data } = api.fetchCats(this.keyword);
+              this.searchResult.setState(data);
+              this.loading.setState(false);
             }
           }, 4000)
         );

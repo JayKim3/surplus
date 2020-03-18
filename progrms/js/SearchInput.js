@@ -8,6 +8,7 @@ export default class SearchInput {
     const $toggleLabel = document.createElement("label");
     let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+    this.onSearch = onSearch;
     this.$searchInput = $searchInput;
     this.$randomButton = $randomButton;
     this.$toggleCheckBox = $toggleCheckBox;
@@ -30,10 +31,10 @@ export default class SearchInput {
     $target.appendChild(this.$searchInput);
     $target.appendChild(this.$randomButton);
 
-    this.$searchInput.addEventListener("keyup", e => {
+    this.$searchInput.addEventListener("keydown", e => {
       if (e.keyCode === 13) {
-        onSearch(e.target.value);
-        $searchInput.value = "";
+        console.log("test");
+        this.onSearch(e.target.value);
       }
     });
 

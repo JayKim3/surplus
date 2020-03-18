@@ -31,13 +31,6 @@ export default class ImageInfo {
       }
     };
 
-    this.onCheckWidth = () => {
-      console.log("onCheckWidth");
-      if (window.innerWidth <= 768) {
-        console.log("small");
-      }
-    };
-
     this.render();
   }
 

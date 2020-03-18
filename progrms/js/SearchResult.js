@@ -26,19 +26,21 @@ export default class SearchResult {
   render() {
     this.$searchResult.innerHTML = this.data
       .map(
-        cat => `
+        (cat, index) => `
             <div class="item">
-              <img class="lazyload" data-src=${cat.url} alt=${cat.name} />
+              <img id=${index} class="lazyload" data-src=${cat.url} alt=${cat.name} />
             </div>
           `
       )
       .join("");
 
-    this.$searchResult.querySelectorAll(".item").forEach(($item, index) => {
-      $item.addEventListener("click", () => {
-        this.onClick(this.data[index]);
-      });
-    });
+    // this.$searchResult.querySelectorAll(".item").forEach(($item, index) => {
+    //   $item.addEventListener("click", () => {
+    //     this.onClick(this.data[index]);
+    //   });
+    // });
+    // Event delegation
+    this.$searchResult.addEventListener("click", this.onClick);
     this.onScrollEvent();
     this.onLoad();
   }
